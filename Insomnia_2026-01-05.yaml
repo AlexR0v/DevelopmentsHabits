@@ -1,0 +1,1084 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Habits
+meta:
+  id: wrk_c4e36354872341598274c2681df48cd4
+  created: 1767636481671
+  modified: 1767636481671
+  description: ""
+collection:
+  - name: DevHabit
+    meta:
+      id: fld_407cfa22bb744ece968fccfc5e5e65b3
+      created: 1767636804297
+      modified: 1767636804297
+      sortKey: -1767636801984
+      description: ""
+    children:
+      - name: Habits
+        meta:
+          id: fld_769a316bec1d4f6ebf2d685221f911bf
+          created: 1767636804299
+          modified: 1767636804299
+          sortKey: -1767636801983
+          description: ""
+        children:
+          - url: "{{API_URL}}/habits"
+            name: Get habits
+            meta:
+              id: req_579359cddadd4767af85993b67548da7
+              created: 1767636804300
+              modified: 1767636839243
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801982
+            method: GET
+            parameters:
+              - name: q
+                value: reflection
+                disabled: true
+              - name: type
+                value: "1"
+                disabled: true
+              - name: status
+                value: "1"
+                disabled: true
+              - name: sort
+                value: name,frequency.type desc
+                disabled: true
+              - name: page
+                value: "1"
+                disabled: true
+              - name: pageSize
+                value: "2"
+                disabled: true
+              - name: fields
+                value: id,name,createdAtUtc
+                disabled: false
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas.1+json
+                disabled: true
+              - name: Accept
+                value: application/json;v=1
+                disabled: true
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{API_URL}}/habits/:id"
+            name: Get habit by ID
+            meta:
+              id: req_5a00fd1f5fa04fa8b85ebcec52b24247
+              created: 1767636804301
+              modified: 1767636873436
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801981
+            method: GET
+            parameters:
+              - name: fields
+                value: name,createdAtUtc,updatedAtUtc,lastCompletedAtUtc
+                disabled: false
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: h_0194f454-31d4-780d-ac00-08535499b0a0
+          - url: "{{API_URL}}/habits"
+            name: Create habit
+            meta:
+              id: req_fb6d83e01f604b6b98374defc6f74343
+              created: 1767636804301
+              modified: 1767636880419
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801980
+            method: POST
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \    \"name\": \"Daily Coding\",\r
+
+                \    \"description\": null,\r
+
+                \    \"type\": 2,\r
+
+                \    \"frequency\": {\r
+
+                \        \"type\": 2,\r
+
+                \        \"timesPerPeriod\": 1\r
+
+                \    },\r
+
+                \    \"target\": {\r
+
+                \        \"value\": 30,\r
+
+                \        \"unit\": \"minutes\"\r
+
+                \    },\r
+
+                \    \"automationSource\": 1\r
+
+                }"
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas.1+json
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{API_URL}}/habits/:id"
+            name: Delete habit
+            meta:
+              id: req_6d6f71ea8c6e4e1194d43f2990373b36
+              created: 1767636804302
+              modified: 1767636904412
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801977
+            method: DELETE
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: h_0194ccb0-c9d8-7527-aa8c-777e227e38c9
+          - url: "{{API_URL}}/habits/:id"
+            name: Update habit
+            meta:
+              id: req_a549ad1d62a44b3a8081a6b8648e712c
+              created: 1767636804302
+              modified: 1767636887596
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801979
+            method: PUT
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \    \"name\": \"Daily Coding\",\r
+
+                \    \"description\": \"The new description of the habit\",\r
+
+                \    \"type\": 2,\r
+
+                \    \"frequency\": {\r
+
+                \        \"type\": 1,\r
+
+                \        \"timesPerPeriod\": 1\r
+
+                \    },\r
+
+                \    \"target\": {\r
+
+                \        \"value\": 45,\r
+
+                \        \"unit\": \"minutes\"\r
+
+                \    },\r
+
+                \    \"milestone\": {\r
+
+                \        \"target\": 100\r
+
+                \    }\r
+
+                }"
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: h_0194cc23-4a5a-7036-91ab-d1b244430481
+          - url: "{{API_URL}}/habits/:id"
+            name: Partially update habit
+            meta:
+              id: req_aeb417b09d8247b1a8f0742aae6a9b2e
+              created: 1767636804302
+              modified: 1767636895011
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801978
+            method: PATCH
+            body:
+              mimeType: application/json
+              text: "[\r
+
+                \  {\r
+
+                \    \"op\": \"replace\",\r
+
+                \    \"path\": \"/name\",\r
+
+                \    \"value\": \"Daily Coding\"\r
+
+                \  }\r
+
+                ]"
+            headers:
+              - name: Content-Type
+                value: application/json-patch+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: h_0194cc23-4a5a-7036-91ab-d1b24443048c
+      - name: Auth
+        meta:
+          id: fld_a79de2866a274a998756a8f6a190f60f
+          created: 1767636804303
+          modified: 1767636804303
+          sortKey: -1767636801976
+          description: ""
+        children:
+          - url: "{{API_URL}}/auth/login"
+            name: Login
+            meta:
+              id: req_9f39c5e805c2451298fcfc92a61594d6
+              created: 1767636804303
+              modified: 1767636917192
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801974
+            method: POST
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \  \"email\": \"<YOUR_EMAIL>\",\r
+
+                \  \"password\": \"<YOUR_PASSWORD>\"\r
+
+                }"
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{API_URL}}/auth/register"
+            name: Register
+            meta:
+              id: req_fdc204c63fcd4437b6706366e9c1957a
+              created: 1767636804303
+              modified: 1767636910972
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801975
+            method: POST
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \  \"email\": \"<YOUR_EMAIL>\",\r
+
+                \  \"name\": \"<YOUR_NAME>\",\r
+
+                \  \"password\": \"<YOUR_PASSWORD>\",\r
+
+                \  \"confirmPassword\": \"<YOUR_PASSWORD>\"\r
+
+                }"
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{API_URL}}/auth/refresh"
+            name: Refresh
+            meta:
+              id: req_b1671fde46a8497d966844efea49fb79
+              created: 1767636804304
+              modified: 1767636924641
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801973
+            method: POST
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \  \"refreshToken\": \"<YOUR_REFRESH_TOKEN>\"\r
+
+                }"
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: GitHub
+        meta:
+          id: fld_4cb9023c786745468eec7938a79298d0
+          created: 1767636804304
+          modified: 1767636804304
+          sortKey: -1767636801972
+          description: ""
+        children:
+          - url: https://localhost:5001/github/profile
+            name: Get GitHub profile
+            meta:
+              id: req_89bc03e2b16b493ba206f4162dc230df
+              created: 1767636804304
+              modified: 1767636804304
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801970
+            method: GET
+            body:
+              mimeType: application/json
+              text: "{\r\n  \"pat\": \"\"\r\n}"
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/github/personal-access-token
+            name: Store GitHub PAT
+            meta:
+              id: req_fbd8854a113e4b90a044332ff3c0bea4
+              created: 1767636804304
+              modified: 1767636804304
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801971
+            method: PUT
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \  \"accessToken\": \"<YOUR_GITHUB_PAT>\",\r
+
+                \  \"expiresInDays\": 30\r
+
+                }"
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/github/personal-access-token
+            name: Revoke access token
+            meta:
+              id: req_814fcd3a86b64cd5936f3264c78c87c3
+              created: 1767636804305
+              modified: 1767636804305
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801969
+            method: DELETE
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Health
+        meta:
+          id: fld_cc1a5c087ab64219aaac37a5c7896781
+          created: 1767636804305
+          modified: 1767636804305
+          sortKey: -1767636801968
+          description: ""
+        children:
+          - url: https://localhost:5001/health
+            name: Health
+            meta:
+              id: req_5b45cfe07446417c8f9f52a16091f67d
+              created: 1767636804305
+              modified: 1767636804305
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801967
+            method: GET
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/github/profile/events
+            name: Get GitHub events
+            meta:
+              id: req_1c80540b57cd47908a7151ea8348d255
+              created: 1767636804306
+              modified: 1767636804306
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801966
+            method: GET
+            body:
+              mimeType: application/json
+              text: "{\r\n  \"pat\": \"\"\r\n}"
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Tags
+        meta:
+          id: fld_d969629548b54410a174c8a26443cca3
+          created: 1767636804306
+          modified: 1767636804306
+          sortKey: -1767636801965
+          description: ""
+        children:
+          - url: https://localhost:5001/tags
+            name: Get tags
+            meta:
+              id: req_97cd784444c4437d87cbbbe4e1f43e77
+              created: 1767636804306
+              modified: 1767636804306
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801964
+            method: GET
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/tags/:id
+            name: Update tag
+            meta:
+              id: req_18b778b249ab497d9fe12071a7ab2999
+              created: 1767636804307
+              modified: 1767636804307
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801961
+            method: PUT
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \    \"name\": \".net\",\r
+
+                \    \"description\": \"Detailed tag description123456\"\r
+
+                }"
+            headers:
+              - name: If-Match
+                value: '"07F02DD4545A2099BC9C4DCA31B27F4A3F373847251718CF2B547C1B01C355B41E012B34A6590A29116AAE6629912FABE32832A1D36ABDCA08D376D1171359DD"'
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: t_0194ebd4-4442-7dc8-8580-00241e8ac24b
+          - url: https://localhost:5001/tags
+            name: Create tag
+            meta:
+              id: req_84749173ee544c45bef196f4f57fe202
+              created: 1767636804307
+              modified: 1767636804307
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801962
+            method: POST
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \    \"name\": \".net\",\r
+
+                \    \"description\": null\r
+
+                }"
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas.1+json
+                disabled: true
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/tags/:id
+            name: Get tag by iD
+            meta:
+              id: req_eeb05b6cd1034592a759b474eee930ad
+              created: 1767636804307
+              modified: 1767636804307
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801963
+            method: GET
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas.1+json
+              - name: If-None-Match
+                value: '"E05002FD35392907BEDFB3E48ABDB3B23AB338831F925D070AF6AADB84FC18D02BE3E3D4218366F18B595C0C978A4DA9468286605B4A4F9548CC1DA8AB057D26"'
+                disabled: true
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: t_0194ebd4-4442-7dc8-8580-00241e8ac24b
+          - url: https://localhost:5001/tags/:id
+            name: Delete tag
+            meta:
+              id: req_21a4d5f8f6ce40a280d15293a14b1145
+              created: 1767636804308
+              modified: 1767636804308
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801959
+            method: DELETE
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: t_0194d21d-e13a-727c-97ad-1c82f1c4a891
+          - url: https://localhost:5001/tags/:id
+            name: Update tag - Concurrent
+            meta:
+              id: req_e019a9fa9d094073b85f7e14eac964bc
+              created: 1767636804308
+              modified: 1767636804308
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801960
+            method: PUT
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \    \"name\": \".net\",\r
+
+                \    \"description\": \"Detailed tag description\"\r
+
+                }"
+            headers:
+              - name: If-Match
+                value: '"15DA8B1B9F298AFA64D052058B37078AE4B6FBB18DF3AE1DE683CDA18A6AD88D90D2D7829386E9674AD6AC0E0159444ACC530B3063138CCA4AECC70568643E3D"'
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: t_0194ebd4-4442-7dc8-8580-00241e8ac24b
+      - name: Users
+        meta:
+          id: fld_c481916b76df4b7084571a18a72c42df
+          created: 1767636804308
+          modified: 1767636804308
+          sortKey: -1767636801958
+          description: ""
+        children:
+          - url: https://localhost:5001/users/me
+            name: Get current user
+            meta:
+              id: req_42d0664c919e49f0a359e0dabe275ea4
+              created: 1767636804308
+              modified: 1767636804308
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801957
+            method: GET
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/users/me/profile
+            name: Update current user
+            meta:
+              id: req_13da080f5461446a9a7290c5edf27b47
+              created: 1767636804309
+              modified: 1767636804309
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801955
+            method: PUT
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \    \"userName\": \"<YOUR_USERNAME>\"\r
+
+                }"
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/users/:id
+            name: Get user by ID
+            meta:
+              id: req_59e84e3d539e43f9867fb553c772a795
+              created: 1767636804309
+              modified: 1767636804309
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801956
+            method: GET
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: u_0194eb07-d518-7da6-88ff-13e3109c984f
+      - name: Entries
+        meta:
+          id: fld_6ab56d0f1cac47d09397d71daf914973
+          created: 1767636804309
+          modified: 1767636804309
+          sortKey: -1767636801954
+          description: ""
+        children:
+          - url: https://localhost:5001/entries
+            name: Create entry
+            meta:
+              id: req_4abd4b4786e440ff9e643930972fb43a
+              created: 1767636804309
+              modified: 1767636804309
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801953
+            method: POST
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \  \"habitId\": \"h_0194f454-31d4-780d-ac00-08535499b0a0\",\r
+
+                \  \"value\": 1,\r
+
+                \  \"date\": \"2025-02-13\"\r
+
+                }"
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/entries/imports/:id
+            name: Get entry import by ID
+            meta:
+              id: req_1a03a85246494ffc90143278405e5151
+              created: 1767636804310
+              modified: 1767636804310
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801950
+            method: GET
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: ei_0194ffd5-6c16-7b78-be30-64eee4b4747c
+          - url: https://localhost:5001/entries/imports
+            name: Import entries
+            meta:
+              id: req_32c82794667f4e7390521f25384a9763
+              created: 1767636804310
+              modified: 1767636804310
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801952
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: File
+                  disabled: false
+                  fileName: /C:/Users/milan/source/courses/REST/dev-habit/.files/habit-data.csv
+                  type: file
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+              - name: Content-Type
+                value: multipart/form-data
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/entries
+            name: Get entries
+            meta:
+              id: req_45cfa318c13b4b9a917f0eafaeacb19a
+              created: 1767636804310
+              modified: 1767636804310
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801951
+            method: GET
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/entries/:id/archive
+            name: Archive entry
+            meta:
+              id: req_19bb6fc330a44bca8a41512ff31ea3d6
+              created: 1767636804311
+              modified: 1767636804311
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801946
+            method: PUT
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: e_0194f576-34e8-7511-be09-dd3d926c64bf
+          - url: https://localhost:5001/entries/:id
+            name: Get entry by ID
+            meta:
+              id: req_4952a1ff5801489baff2f2a90e48a45c
+              created: 1767636804311
+              modified: 1767636804311
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801947
+            method: GET
+            parameters:
+              - name: fields
+                value: id,value,externalId
+                disabled: false
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: e_0194f576-34e8-7511-be09-dd3d926c64bf
+          - url: https://localhost:5001/entries/cursor
+            name: Get entries - cursor
+            meta:
+              id: req_771a133adf704d70b8fdfd9d0134ec21
+              created: 1767636804311
+              modified: 1767636804311
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801949
+            method: GET
+            parameters:
+              - name: cursor
+                value: eyJJZCI6ImVfMDE5NGY5M2EtYzczNS03OTZkLWI3OWQtMmJmMGVhMWY2ODljIiwiRGF0ZSI6IjIwMjUtMDEtMjQifQ
+                disabled: false
+              - name: limit
+                value: "100"
+                disabled: false
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/entries/stats
+            name: Get entries stats
+            meta:
+              id: req_9d7ffac9143245f1a58b63506ff4b228
+              created: 1767636804311
+              modified: 1767636804311
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801948
+            method: GET
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: https://localhost:5001/entries/:id/un-archive
+            name: Un-archive entry
+            meta:
+              id: req_c9b5ff6ac08b4ac6a963afb7c9ace37a
+              created: 1767636804312
+              modified: 1767636804312
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801945
+            method: PUT
+            headers:
+              - name: Accept
+                value: application/vnd.dev-habit.hateoas+json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: id
+                value: e_0194f576-34e8-7511-be09-dd3d926c64bf
+      - name: HabitTags
+        meta:
+          id: fld_deeb374d27de4d87bc813773511a456e
+          created: 1767636804312
+          modified: 1767636804312
+          sortKey: -1767636801944
+          description: ""
+        children:
+          - url: https://localhost:5001/habits/:habitId/tags
+            name: Upsert habit tags
+            meta:
+              id: req_f5646c13d7e0409390be3c9e5176a653
+              created: 1767636804312
+              modified: 1767636804312
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801943
+            method: PUT
+            body:
+              mimeType: application/json
+              text: "{\r
+
+                \  \"tagIds\": [\r
+
+                \    \"t_0194ebd4-4442-7dc8-8580-00241e8ac24b\"\r
+
+                \  ]\r
+
+                }"
+            headers:
+              - name: Content-Type
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: habitId
+                value: h_0194ebd3-cef4-7a5f-9d0d-37e4c5db51dd
+          - url: https://localhost:5001/habits/:habitId/tags/:tagId
+            name: Remove habit tag
+            meta:
+              id: req_23f426eee9354677bf79a1ef050e972d
+              created: 1767636804313
+              modified: 1767636804313
+              isPrivate: false
+              description: ""
+              sortKey: -1767636801942
+            method: DELETE
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+            pathParameters:
+              - name: habitId
+                value: h_0194cc23-4a5a-7036-91ab-d1b24443048c
+              - name: tagId
+                value: t_0194d0e0-f874-7812-818b-e629f01c213a
+    authentication:
+      type: bearer
+      disabled: false
+      token: <YOUR_JWT_TOKEN>
+      prefix: ""
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_c9c5b304db76351b1b50ccd45697efb0233612ca
+    created: 1767636481677
+    modified: 1767636481677
+environments:
+  name: Base Environment
+  meta:
+    id: env_c9c5b304db76351b1b50ccd45697efb0233612ca
+    created: 1767636481676
+    modified: 1767636602909
+    isPrivate: false
+  data:
+    API_URL: https://localhost:5001

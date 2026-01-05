@@ -1,0 +1,49 @@
+using DevHabit.Api.Database;
+using DevHabit.Api.DTOs.Common;
+using DevHabit.Api.DTOs.Habits;
+using DevHabit.Api.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace DevHabit.Api.Controllers;
+
+[ApiController]
+[Route("habits")]
+public sealed class HabitsController(ApplicationDbContext dbContext) : ControllerBase
+{
+    [HttpGet]
+    public async Task<IActionResult> GetHabits()
+    {
+        List<HabitDto> habits = await dbContext.Habits.Select(h => h.ToDto()).ToListAsync();
+        int totalCount = await dbContext.Habits.CountAsync();
+        var result = new PaginationResult<HabitDto>
+        {
+            Items = habits,
+            TotalCount = totalCount
+        };
+        return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetHabitByIdAsync(string id)
+    {
+        Habit? habit = await dbContext.Habits
+            .Where(h => h.Id == id)
+            .FirstOrDefaultAsync();
+        if (habit is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(habit.ToDto());
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CreateHabitAsync(CreateHabitDto createHabitDto)
+    {
+        Habit habit = createHabitDto.ToEntity();
+        dbContext.Habits.Add(habit);
+        await dbContext.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetHabits), new { id = habit.Id }, habit.ToDto());
+    }
+}
