@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<ApplicationDbContext>(o => o
     .UseNpgsql(builder.Configuration.GetConnectionString("Database"),
