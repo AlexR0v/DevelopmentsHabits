@@ -17,6 +17,7 @@ public record HabitDto
     public required DateTime CreatedAtUtc { get; init; }
     public DateTime? UpdatedAtUtc { get; init; }
     public DateTime? LastCompletedAtUtc { get; init; }
+    public string[] Tags { get; init; } = [];
 }
 
 public sealed record FrequencyDto

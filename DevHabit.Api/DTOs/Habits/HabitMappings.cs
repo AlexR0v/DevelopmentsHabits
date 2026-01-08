@@ -34,7 +34,8 @@ internal static class HabitMappings
                 },
             CreatedAtUtc = habit.CreatedAt,
             UpdatedAtUtc = habit.UpdatedAt,
-            LastCompletedAtUtc = habit.LastCompletedAt
+            LastCompletedAtUtc = habit.LastCompletedAt,
+            Tags = habit.Tags.Select(t => t.Name).ToArray()
         };
     }
 

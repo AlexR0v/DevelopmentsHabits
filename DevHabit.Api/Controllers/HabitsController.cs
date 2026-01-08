@@ -2,8 +2,11 @@ using DevHabit.Api.Database;
 using DevHabit.Api.DTOs.Common;
 using DevHabit.Api.DTOs.Habits;
 using DevHabit.Api.Entities;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevHabit.Api.Controllers;
@@ -15,7 +18,9 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
     [HttpGet]
     public async Task<IActionResult> GetHabits()
     {
-        List<HabitDto> habits = await dbContext.Habits.Select(h => h.ToDto()).ToListAsync();
+        List<HabitDto> habits = await dbContext.Habits
+            .Include(h => h.Tags)
+            .Select(h => h.ToDto()).ToListAsync();
         int totalCount = await dbContext.Habits.CountAsync();
         var result = new PaginationResult<HabitDto>
         {
@@ -29,6 +34,7 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
     public async Task<IActionResult> GetHabitByIdAsync(string id)
     {
         Habit? habit = await dbContext.Habits
+            .Include(h => h.Tags)
             .Where(h => h.Id == id)
             .FirstOrDefaultAsync();
         if (habit is null)
@@ -40,14 +46,31 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateHabitAsync(CreateHabitDto createHabitDto)
+    public async Task<IActionResult> CreateHabitAsync(CreateHabitDto createHabitDto,
+        IValidator<CreateHabitDto> validator, ProblemDetailsFactory problemDetailsFactory)
     {
+        ValidationResult validationResult = await validator.ValidateAsync(createHabitDto);
+
+        if (!validationResult.IsValid)
+        {
+            ProblemDetails problem = problemDetailsFactory.CreateProblemDetails(
+                HttpContext,
+                StatusCodes.Status400BadRequest);
+            problem.Extensions.Add("errors", validationResult.ToDictionary());
+
+            return BadRequest(problem);
+        }
+
         Habit habit = createHabitDto.ToEntity();
         dbContext.Habits.Add(habit);
         await dbContext.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetHabits), new { id = habit.Id }, habit.ToDto());
+        Habit habitResponse = await dbContext.Habits
+            .Include(h => h.Tags)
+            .Where(h => h.Id == habit.Id)
+            .FirstOrDefaultAsync();
+        return CreatedAtAction(nameof(GetHabits), new { id = habit.Id }, habitResponse?.ToDto());
     }
-    
+
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateHabit(string id, UpdateHabitDto updateHabitDto)
     {
@@ -74,12 +97,14 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
         {
             return NotFound();
         }
+
         HabitDto habitDto = habit.ToDto();
         patchDocument.ApplyTo(habitDto, ModelState);
         if (!TryValidateModel(habitDto))
         {
             return ValidationProblem(ModelState);
         }
+
         habit.Name = habitDto.Name;
         habit.Description = habitDto.Description;
         habit.UpdatedAt = DateTime.UtcNow;
@@ -88,7 +113,7 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
 
         return NoContent();
     }
-    
+
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteHabit(string id)
     {
