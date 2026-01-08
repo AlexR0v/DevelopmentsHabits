@@ -28,7 +28,7 @@ collection:
             meta:
               id: req_579359cddadd4767af85993b67548da7
               created: 1767636804300
-              modified: 1767636839243
+              modified: 1767896668868
               isPrivate: false
               description: ""
               sortKey: -1767636801982
@@ -54,7 +54,7 @@ collection:
                 disabled: true
               - name: fields
                 value: id,name,createdAtUtc
-                disabled: false
+                disabled: true
             headers:
               - name: Accept
                 value: application/vnd.dev-habit.hateoas.1+json
@@ -75,7 +75,7 @@ collection:
             meta:
               id: req_5a00fd1f5fa04fa8b85ebcec52b24247
               created: 1767636804301
-              modified: 1767636873436
+              modified: 1767641311593
               isPrivate: false
               description: ""
               sortKey: -1767636801981
@@ -97,46 +97,33 @@ collection:
               rebuildPath: true
             pathParameters:
               - name: id
-                value: h_0194f454-31d4-780d-ac00-08535499b0a0
+                value: h_df5db85a-6867-4462-8e5e-8004960c786e
           - url: "{{API_URL}}/habits"
             name: Create habit
             meta:
               id: req_fb6d83e01f604b6b98374defc6f74343
               created: 1767636804301
-              modified: 1767636880419
+              modified: 1767897159618
               isPrivate: false
               description: ""
               sortKey: -1767636801980
             method: POST
             body:
               mimeType: application/json
-              text: "{\r
-
-                \    \"name\": \"Daily Coding\",\r
-
-                \    \"description\": null,\r
-
-                \    \"type\": 2,\r
-
-                \    \"frequency\": {\r
-
-                \        \"type\": 2,\r
-
-                \        \"timesPerPeriod\": 1\r
-
-                \    },\r
-
-                \    \"target\": {\r
-
-                \        \"value\": 30,\r
-
-                \        \"unit\": \"minutes\"\r
-
-                \    },\r
-
-                \    \"automationSource\": 1\r
-
-                }"
+              text: |-
+                {
+                    "name": "Code",
+                    "description": 	null,
+                    "type": 2,
+                    "frequency": {
+                        "type": 1,
+                        "timesPerPeriod": 1
+                    },
+                    "target": {
+                        "value": 30,
+                        "unit": "minutes"
+                    }
+                }
             headers:
               - name: Accept
                 value: application/vnd.dev-habit.hateoas.1+json
@@ -155,7 +142,7 @@ collection:
             meta:
               id: req_6d6f71ea8c6e4e1194d43f2990373b36
               created: 1767636804302
-              modified: 1767636904412
+              modified: 1767728662098
               isPrivate: false
               description: ""
               sortKey: -1767636801977
@@ -170,13 +157,13 @@ collection:
               rebuildPath: true
             pathParameters:
               - name: id
-                value: h_0194ccb0-c9d8-7527-aa8c-777e227e38c9
+                value: h_019b8f8f-57b2-75ae-9305-0e0f6652eb02
           - url: "{{API_URL}}/habits/:id"
             name: Update habit
             meta:
               id: req_a549ad1d62a44b3a8081a6b8648e712c
               created: 1767636804302
-              modified: 1767636887596
+              modified: 1767722753498
               isPrivate: false
               description: ""
               sortKey: -1767636801979
@@ -227,32 +214,27 @@ collection:
               rebuildPath: true
             pathParameters:
               - name: id
-                value: h_0194cc23-4a5a-7036-91ab-d1b244430481
+                value: h_df5db85a-6867-4462-8e5e-8004960c786e
           - url: "{{API_URL}}/habits/:id"
             name: Partially update habit
             meta:
               id: req_aeb417b09d8247b1a8f0742aae6a9b2e
               created: 1767636804302
-              modified: 1767636895011
+              modified: 1767727156502
               isPrivate: false
               description: ""
               sortKey: -1767636801978
             method: PATCH
             body:
               mimeType: application/json
-              text: "[\r
-
-                \  {\r
-
-                \    \"op\": \"replace\",\r
-
-                \    \"path\": \"/name\",\r
-
-                \    \"value\": \"Daily Coding\"\r
-
-                \  }\r
-
-                ]"
+              text: |-
+                [
+                  {
+                    "op": "replace",
+                    "path": "/{% os 'hostname', '' %}",
+                    "value": "Coding"
+                  }
+                ]
             headers:
               - name: Content-Type
                 value: application/json-patch+json
@@ -266,7 +248,7 @@ collection:
               rebuildPath: true
             pathParameters:
               - name: id
-                value: h_0194cc23-4a5a-7036-91ab-d1b24443048c
+                value: h_df5db85a-6867-4462-8e5e-8004960c786e
       - name: Auth
         meta:
           id: fld_a79de2866a274a998756a8f6a190f60f
@@ -375,12 +357,12 @@ collection:
           sortKey: -1767636801972
           description: ""
         children:
-          - url: https://localhost:5001/github/profile
+          - url: "{{API_URL}}/github/profile"
             name: Get GitHub profile
             meta:
               id: req_89bc03e2b16b493ba206f4162dc230df
               created: 1767636804304
-              modified: 1767636804304
+              modified: 1767729163532
               isPrivate: false
               description: ""
               sortKey: -1767636801970
@@ -401,12 +383,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/github/personal-access-token
+          - url: "{{API_URL}}/github/personal-access-token"
             name: Store GitHub PAT
             meta:
               id: req_fbd8854a113e4b90a044332ff3c0bea4
               created: 1767636804304
-              modified: 1767636804304
+              modified: 1767729156669
               isPrivate: false
               description: ""
               sortKey: -1767636801971
@@ -431,12 +413,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/github/personal-access-token
+          - url: "{{API_URL}}/github/personal-access-token"
             name: Revoke access token
             meta:
               id: req_814fcd3a86b64cd5936f3264c78c87c3
               created: 1767636804305
-              modified: 1767636804305
+              modified: 1767729172646
               isPrivate: false
               description: ""
               sortKey: -1767636801969
@@ -457,12 +439,12 @@ collection:
           sortKey: -1767636801968
           description: ""
         children:
-          - url: https://localhost:5001/health
+          - url: "{{API_URL}}/health"
             name: Health
             meta:
               id: req_5b45cfe07446417c8f9f52a16091f67d
               created: 1767636804305
-              modified: 1767636804305
+              modified: 1767729180366
               isPrivate: false
               description: ""
               sortKey: -1767636801967
@@ -475,12 +457,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/github/profile/events
+          - url: "{{API_URL}}/github/profile/events"
             name: Get GitHub events
             meta:
               id: req_1c80540b57cd47908a7151ea8348d255
               created: 1767636804306
-              modified: 1767636804306
+              modified: 1767729186633
               isPrivate: false
               description: ""
               sortKey: -1767636801966
@@ -507,12 +489,12 @@ collection:
           sortKey: -1767636801965
           description: ""
         children:
-          - url: https://localhost:5001/tags
+          - url: "{{API_URL}}/tags"
             name: Get tags
             meta:
               id: req_97cd784444c4437d87cbbbe4e1f43e77
               created: 1767636804306
-              modified: 1767636804306
+              modified: 1767729141293
               isPrivate: false
               description: ""
               sortKey: -1767636801964
@@ -528,12 +510,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/tags/:id
+          - url: "{{API_URL}}/tags/:id"
             name: Update tag
             meta:
               id: req_18b778b249ab497d9fe12071a7ab2999
               created: 1767636804307
-              modified: 1767636804307
+              modified: 1767728330885
               isPrivate: false
               description: ""
               sortKey: -1767636801961
@@ -562,26 +544,24 @@ collection:
               rebuildPath: true
             pathParameters:
               - name: id
-                value: t_0194ebd4-4442-7dc8-8580-00241e8ac24b
-          - url: https://localhost:5001/tags
+                value: t_019b94d0-a84e-7e20-bf73-98e335534ecc
+          - url: "{{API_URL}}/tags"
             name: Create tag
             meta:
               id: req_84749173ee544c45bef196f4f57fe202
               created: 1767636804307
-              modified: 1767636804307
+              modified: 1767892360404
               isPrivate: false
               description: ""
               sortKey: -1767636801962
             method: POST
             body:
               mimeType: application/json
-              text: "{\r
-
-                \    \"name\": \".net\",\r
-
-                \    \"description\": null\r
-
-                }"
+              text: |-
+                {
+                    "name": "123",
+                    "description": null
+                }
             headers:
               - name: Accept
                 value: application/vnd.dev-habit.hateoas.1+json
@@ -596,12 +576,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/tags/:id
+          - url: "{{API_URL}}/tags/:id"
             name: Get tag by iD
             meta:
               id: req_eeb05b6cd1034592a759b474eee930ad
               created: 1767636804307
-              modified: 1767636804307
+              modified: 1767728213311
               isPrivate: false
               description: ""
               sortKey: -1767636801963
@@ -623,12 +603,12 @@ collection:
             pathParameters:
               - name: id
                 value: t_0194ebd4-4442-7dc8-8580-00241e8ac24b
-          - url: https://localhost:5001/tags/:id
+          - url: "{{API_URL}}/tags/:id"
             name: Delete tag
             meta:
               id: req_21a4d5f8f6ce40a280d15293a14b1145
               created: 1767636804308
-              modified: 1767636804308
+              modified: 1767728245950
               isPrivate: false
               description: ""
               sortKey: -1767636801959
@@ -644,12 +624,12 @@ collection:
             pathParameters:
               - name: id
                 value: t_0194d21d-e13a-727c-97ad-1c82f1c4a891
-          - url: https://localhost:5001/tags/:id
+          - url: "{{API_URL}}/tags/:id"
             name: Update tag - Concurrent
             meta:
               id: req_e019a9fa9d094073b85f7e14eac964bc
               created: 1767636804308
-              modified: 1767636804308
+              modified: 1767728235235
               isPrivate: false
               description: ""
               sortKey: -1767636801960
@@ -687,12 +667,12 @@ collection:
           sortKey: -1767636801958
           description: ""
         children:
-          - url: https://localhost:5001/users/me
+          - url: "{{API_URL}}/users/me"
             name: Get current user
             meta:
               id: req_42d0664c919e49f0a359e0dabe275ea4
               created: 1767636804308
-              modified: 1767636804308
+              modified: 1767729198290
               isPrivate: false
               description: ""
               sortKey: -1767636801957
@@ -705,12 +685,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/users/me/profile
+          - url: "{{API_URL}}/users/me/profile"
             name: Update current user
             meta:
               id: req_13da080f5461446a9a7290c5edf27b47
               created: 1767636804309
-              modified: 1767636804309
+              modified: 1767729211031
               isPrivate: false
               description: ""
               sortKey: -1767636801955
@@ -733,12 +713,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/users/:id
+          - url: "{{API_URL}}/users/:id"
             name: Get user by ID
             meta:
               id: req_59e84e3d539e43f9867fb553c772a795
               created: 1767636804309
-              modified: 1767636804309
+              modified: 1767729205061
               isPrivate: false
               description: ""
               sortKey: -1767636801956
@@ -762,12 +742,12 @@ collection:
           sortKey: -1767636801954
           description: ""
         children:
-          - url: https://localhost:5001/entries
+          - url: "{{API_URL}}/entries"
             name: Create entry
             meta:
               id: req_4abd4b4786e440ff9e643930972fb43a
               created: 1767636804309
-              modified: 1767636804309
+              modified: 1767729218907
               isPrivate: false
               description: ""
               sortKey: -1767636801953
@@ -796,12 +776,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/entries/imports/:id
+          - url: "{{API_URL}}/entries/imports/:id"
             name: Get entry import by ID
             meta:
               id: req_1a03a85246494ffc90143278405e5151
               created: 1767636804310
-              modified: 1767636804310
+              modified: 1767729238680
               isPrivate: false
               description: ""
               sortKey: -1767636801950
@@ -820,12 +800,12 @@ collection:
             pathParameters:
               - name: id
                 value: ei_0194ffd5-6c16-7b78-be30-64eee4b4747c
-          - url: https://localhost:5001/entries/imports
+          - url: "{{API_URL}}/entries/imports"
             name: Import entries
             meta:
               id: req_32c82794667f4e7390521f25384a9763
               created: 1767636804310
-              modified: 1767636804310
+              modified: 1767729224487
               isPrivate: false
               description: ""
               sortKey: -1767636801952
@@ -850,12 +830,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/entries
+          - url: "{{API_URL}}/entries"
             name: Get entries
             meta:
               id: req_45cfa318c13b4b9a917f0eafaeacb19a
               created: 1767636804310
-              modified: 1767636804310
+              modified: 1767729231968
               isPrivate: false
               description: ""
               sortKey: -1767636801951
@@ -871,12 +851,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/entries/:id/archive
+          - url: "{{API_URL}}/entries/:id/archive"
             name: Archive entry
             meta:
               id: req_19bb6fc330a44bca8a41512ff31ea3d6
               created: 1767636804311
-              modified: 1767636804311
+              modified: 1767729262225
               isPrivate: false
               description: ""
               sortKey: -1767636801946
@@ -895,12 +875,12 @@ collection:
             pathParameters:
               - name: id
                 value: e_0194f576-34e8-7511-be09-dd3d926c64bf
-          - url: https://localhost:5001/entries/:id
+          - url: "{{API_URL}}/entries/:id"
             name: Get entry by ID
             meta:
               id: req_4952a1ff5801489baff2f2a90e48a45c
               created: 1767636804311
-              modified: 1767636804311
+              modified: 1767729256625
               isPrivate: false
               description: ""
               sortKey: -1767636801947
@@ -923,12 +903,12 @@ collection:
             pathParameters:
               - name: id
                 value: e_0194f576-34e8-7511-be09-dd3d926c64bf
-          - url: https://localhost:5001/entries/cursor
+          - url: "{{API_URL}}/entries/cursor"
             name: Get entries - cursor
             meta:
               id: req_771a133adf704d70b8fdfd9d0134ec21
               created: 1767636804311
-              modified: 1767636804311
+              modified: 1767729244765
               isPrivate: false
               description: ""
               sortKey: -1767636801949
@@ -951,12 +931,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/entries/stats
+          - url: "{{API_URL}}/entries/stats"
             name: Get entries stats
             meta:
               id: req_9d7ffac9143245f1a58b63506ff4b228
               created: 1767636804311
-              modified: 1767636804311
+              modified: 1767729250574
               isPrivate: false
               description: ""
               sortKey: -1767636801948
@@ -972,12 +952,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: https://localhost:5001/entries/:id/un-archive
+          - url: "{{API_URL}}/entries/:id/un-archive"
             name: Un-archive entry
             meta:
               id: req_c9b5ff6ac08b4ac6a963afb7c9ace37a
               created: 1767636804312
-              modified: 1767636804312
+              modified: 1767729268414
               isPrivate: false
               description: ""
               sortKey: -1767636801945
@@ -1004,27 +984,24 @@ collection:
           sortKey: -1767636801944
           description: ""
         children:
-          - url: https://localhost:5001/habits/:habitId/tags
+          - url: "{{API_URL}}/habits/:habitId/tags"
             name: Upsert habit tags
             meta:
               id: req_f5646c13d7e0409390be3c9e5176a653
               created: 1767636804312
-              modified: 1767636804312
+              modified: 1767728674767
               isPrivate: false
               description: ""
               sortKey: -1767636801943
             method: PUT
             body:
               mimeType: application/json
-              text: "{\r
-
-                \  \"tagIds\": [\r
-
-                \    \"t_0194ebd4-4442-7dc8-8580-00241e8ac24b\"\r
-
-                \  ]\r
-
-                }"
+              text: |-
+                {
+                  "tagIds": [
+                    "t_019b94d0-a84e-7e20-bf73-98e335534ecc"
+                  ]
+                }
             headers:
               - name: Content-Type
                 value: application/json
@@ -1038,13 +1015,13 @@ collection:
               rebuildPath: true
             pathParameters:
               - name: habitId
-                value: h_0194ebd3-cef4-7a5f-9d0d-37e4c5db51dd
-          - url: https://localhost:5001/habits/:habitId/tags/:tagId
+                value: h_df5db85a-6867-4462-8e5e-8004960c786e
+          - url: "{{API_URL}}/habits/:habitId/tags/:tagId"
             name: Remove habit tag
             meta:
               id: req_23f426eee9354677bf79a1ef050e972d
               created: 1767636804313
-              modified: 1767636804313
+              modified: 1767728684836
               isPrivate: false
               description: ""
               sortKey: -1767636801942
@@ -1078,7 +1055,7 @@ environments:
   meta:
     id: env_c9c5b304db76351b1b50ccd45697efb0233612ca
     created: 1767636481676
-    modified: 1767636602909
+    modified: 1767897142820
     isPrivate: false
   data:
-    API_URL: https://localhost:5001
+    API_URL: http://localhost:50000
