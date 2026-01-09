@@ -1,4 +1,10 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+﻿FROM mcr.microsoft.com/dotnet/sdk:10.0 AS dev
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+ENTRYPOINT ["dotnet", "watch", "run", "--urls", "http://0.0.0.0:8080", "--project", "DevHabit.Api/DevHabit.Api.csproj"]
+
+FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080

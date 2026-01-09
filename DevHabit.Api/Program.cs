@@ -1,6 +1,9 @@
 using DevHabit.Api.Database;
+using DevHabit.Api.DTOs.Habits;
+using DevHabit.Api.Entities;
 using DevHabit.Api.Extensions;
 using DevHabit.Api.Middleware;
+using DevHabit.Api.Services.Sorting;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
@@ -19,6 +22,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(o => o
         nO => nO.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Application))
     .UseSnakeCaseNamingConvention());
 
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+
 builder.Services.AddProblemDetails(options =>
 {
     options.CustomizeProblemDetails = context =>
@@ -28,8 +33,6 @@ builder.Services.AddProblemDetails(options =>
 });
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-
-builder.Services.AddValidatorsFromAssemblyContaining<Program>(includeInternalTypes: true);
 
 builder.Services.AddOpenTelemetry()
     .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
@@ -49,6 +52,9 @@ builder.Logging.AddOpenTelemetry(options =>
     options.IncludeFormattedMessage = true;
 });
 
+builder.Services.AddTransient<SortMappingProvider>();
+builder.Services.AddSingleton<ISortMappingDefinition, SortMappingDefinition<HabitDto, Habit>>(_ => HabitMappings.SortMapping);
+
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -57,7 +63,6 @@ if (app.Environment.IsDevelopment())
     await app.ApplyMigrationsAsync();
 }
 
-app.UseHttpsRedirection();
 app.MapControllers();
 
 await app.RunAsync();
