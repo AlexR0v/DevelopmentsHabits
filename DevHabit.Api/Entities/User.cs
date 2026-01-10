@@ -9,4 +9,6 @@ public sealed class User
     public DateTime? UpdatedAt { get; set; }
 
     public string IdentityId { get; set; }
+
+    public static string CreateNewId() => $"u_{Guid.CreateVersion7()}";
 }
