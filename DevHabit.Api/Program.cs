@@ -8,7 +8,8 @@ builder
     .AddDbConnection()
     .AddValidation()
     .AddServices()
-    .AddOpenTelemetry();
+    .AddOpenTelemetry()
+    .AddAuthService();
 
 WebApplication app = builder.Build();
 
