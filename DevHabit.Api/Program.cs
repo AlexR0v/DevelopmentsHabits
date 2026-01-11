@@ -19,6 +19,10 @@ if (app.Environment.IsDevelopment())
     await app.ApplyMigrationsAsync();
 }
 
+app.UseExceptionHandler();
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 
 await app.RunAsync();

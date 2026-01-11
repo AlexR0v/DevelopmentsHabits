@@ -24,25 +24,14 @@ public sealed class AuthController(
     [HttpPost("register")]
     public async Task<IActionResult> RegisterAsync(
         [FromBody] RegisterUserDto registerUserDto,
-        IValidator<RegisterUserDto> validator,
-        ProblemDetailsFactory problemDetailsFactory
+        IValidator<RegisterUserDto> validator
     )
     {
         await using IDbContextTransaction transaction = await identityDbContext.Database.BeginTransactionAsync();
         dbContext.Database.SetDbConnection(identityDbContext.Database.GetDbConnection());
         await dbContext.Database.UseTransactionAsync(transaction.GetDbTransaction());
 
-        ValidationResult validationResult = await validator.ValidateAsync(registerUserDto);
-
-        if (!validationResult.IsValid)
-        {
-            ProblemDetails problem = problemDetailsFactory.CreateProblemDetails(
-                HttpContext,
-                StatusCodes.Status400BadRequest);
-            problem.Extensions.Add("errors", validationResult.ToDictionary());
-
-            return BadRequest(problem);
-        }
+        await validator.ValidateAndThrowAsync(registerUserDto);
 
         bool emailIsTaken = await userManager.FindByEmailAsync(registerUserDto.Email) is not null;
 
