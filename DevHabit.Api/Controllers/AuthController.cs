@@ -1,6 +1,7 @@
 using DevHabit.Api.Database;
 using DevHabit.Api.DTOs.Auth;
 using DevHabit.Api.DTOs.Users;
+using DevHabit.Api.Services;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +19,8 @@ namespace DevHabit.Api.Controllers;
 public sealed class AuthController(
     ApplicationIdentityDbContext identityDbContext,
     ApplicationDbContext dbContext,
-    UserManager<IdentityUser> userManager
+    UserManager<IdentityUser> userManager,
+    TokenProvider tokenProvider
 ) : ControllerBase
 {
     [HttpPost("register")]
@@ -78,6 +80,28 @@ public sealed class AuthController(
 
         await transaction.CommitAsync();
 
-        return Ok(user);
+        AccessTokensDto accessToken = tokenProvider.Create(new TokenRequestDto
+            { UserId = identityUser.Id, Email = identityUser.Email });
+
+        return Ok(accessToken);
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> LoginAsync(
+        [FromBody] LoginUserDto loginUserDto,
+        IValidator<LoginUserDto> validator
+    )
+    {
+        await validator.ValidateAndThrowAsync(loginUserDto);
+        IdentityUser? identityUser = await userManager.FindByEmailAsync(loginUserDto.Email);
+        if (identityUser is null || !await userManager.CheckPasswordAsync(identityUser, loginUserDto.Password))
+        {
+            return Unauthorized();
+        }
+
+        AccessTokensDto accessToken = tokenProvider.Create(new TokenRequestDto
+            { UserId = identityUser.Id, Email = identityUser.Email! });
+
+        return Ok(accessToken);
     }
 }
