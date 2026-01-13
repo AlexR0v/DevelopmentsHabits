@@ -31,12 +31,13 @@ internal static class HabitMappings
             new SortMapping(nameof(HabitDto.LastCompletedAtUtc), nameof(Habit.LastCompletedAt))
         ]
     };
-    
+
     public static HabitDto ToDto(this Habit habit)
     {
         return new HabitDto
         {
             Id = habit.Id,
+            UserId = habit.UserId,
             Name = habit.Name,
             Description = habit.Description,
             Type = habit.Type,
@@ -67,11 +68,25 @@ internal static class HabitMappings
         };
     }
 
-    public static Habit ToEntity(this CreateHabitDto dto)
+    public static HabitShortDto ToShortDto(this Habit habit)
+    {
+        return new HabitShortDto
+        {
+            Id = habit.Id,
+            Name = habit.Name,
+            CreatedAtUtc = habit.CreatedAt,
+            UpdatedAtUtc = habit.UpdatedAt,
+            LastCompletedAtUtc = habit.LastCompletedAt,
+            Tags = habit.Tags.Select(t => t.Name).ToArray()
+        };
+    }
+
+    public static Habit ToEntity(this CreateHabitDto dto, string userId)
     {
         Habit habit = new()
         {
             Id = $"h_{Guid.CreateVersion7()}",
+            UserId = userId,
             Name = dto.Name,
             Description = dto.Description,
             Type = dto.Type,
@@ -104,6 +119,7 @@ internal static class HabitMappings
     public static void UpdateFromDto(this Habit habit, UpdateHabitDto dto)
     {
         habit.Name = dto.Name;
+        habit.UserId = habit.UserId;
         habit.Description = dto.Description;
         habit.Type = dto.Type;
         habit.EndDate = dto.EndDate;

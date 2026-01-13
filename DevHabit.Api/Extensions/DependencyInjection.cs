@@ -99,6 +99,8 @@ public static class DependencyInjection
             HabitMappings.SortMapping);
 
         builder.Services.AddTransient<TokenProvider>();
+        builder.Services.AddMemoryCache();
+        builder.Services.AddScoped<UserContext>();
 
         return builder;
     }

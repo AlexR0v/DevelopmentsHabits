@@ -5,6 +5,7 @@ namespace DevHabit.Api.DTOs.Habits;
 public record HabitDto
 {
     public required string Id { get; init; }
+    public required string UserId { get; init; }
     public required string Name { get; init; }
     public string? Description { get; init; }
     public required HabitType Type { get; init; }

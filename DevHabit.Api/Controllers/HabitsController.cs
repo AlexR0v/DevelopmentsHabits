@@ -3,13 +3,12 @@ using DevHabit.Api.Database;
 using DevHabit.Api.DTOs.Common;
 using DevHabit.Api.DTOs.Habits;
 using DevHabit.Api.Entities;
+using DevHabit.Api.Services;
 using DevHabit.Api.Services.Sorting;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevHabit.Api.Controllers;
@@ -17,7 +16,7 @@ namespace DevHabit.Api.Controllers;
 [Authorize]
 [ApiController]
 [Route("habits")]
-public sealed class HabitsController(ApplicationDbContext dbContext) : ControllerBase
+public sealed class HabitsController(ApplicationDbContext dbContext, UserContext userContext) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetHabits(
@@ -25,6 +24,12 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
         SortMappingProvider sortMappingProvider
     )
     {
+        string? userId = await userContext.GetUserIdAsync();
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return Unauthorized();
+        }
+
         query.Search ??= query.Search?.Trim().ToLower();
 
         if (!sortMappingProvider.ValidateMappings<HabitDto, Habit>(query.Sort))
@@ -36,8 +41,9 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
 
         SortMapping[] sortMappings = sortMappingProvider.GetMappings<HabitDto, Habit>();
 
-        IQueryable<HabitDto> habitsQuery = dbContext.Habits
+        IQueryable<HabitShortDto> habitsQuery = dbContext.Habits
             .Include(h => h.Tags)
+            .Where(h => h.UserId == userId)
             .Where(h => query.Search == null ||
                         h.Name.ToLower().Contains(query.Search) ||
                         h.Description != null &&
@@ -45,16 +51,16 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
             .Where(h => query.Type == null || h.Type == query.Type)
             .Where(h => query.Status == null || h.Status == query.Status)
             .ApplySort(query.Sort, sortMappings)
-            .Select(h => h.ToDto());
+            .Select(h => h.ToShortDto());
 
         int totalCount = await habitsQuery.CountAsync();
 
-        List<HabitDto> habits = await habitsQuery
+        List<HabitShortDto> habits = await habitsQuery
             .Skip((query.Page - 1) * query.PageSize)
             .Take(query.PageSize)
             .ToListAsync();
 
-        var result = new PaginationResult<HabitDto>
+        var result = new PaginationResult<HabitShortDto>
         {
             Items = habits,
             Page = query.Page,
@@ -67,8 +73,15 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
     [HttpGet("{id}")]
     public async Task<IActionResult> GetHabitByIdAsync(string id)
     {
+        string? userId = await userContext.GetUserIdAsync();
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return Unauthorized();
+        }
+
         Habit? habit = await dbContext.Habits
             .Include(h => h.Tags)
+            .Where(h => h.UserId == userId)
             .Where(h => h.Id == id)
             .FirstOrDefaultAsync();
         if (habit is null)
@@ -83,13 +96,20 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
     public async Task<IActionResult> CreateHabitAsync(CreateHabitDto createHabitDto,
         IValidator<CreateHabitDto> validator)
     {
+        string? userId = await userContext.GetUserIdAsync();
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return Unauthorized();
+        }
+
         await validator.ValidateAndThrowAsync(createHabitDto);
 
-        Habit habit = createHabitDto.ToEntity();
+        Habit habit = createHabitDto.ToEntity(userId);
         dbContext.Habits.Add(habit);
         await dbContext.SaveChangesAsync();
         Habit habitResponse = await dbContext.Habits
             .Include(h => h.Tags)
+            .Where(h => h.UserId == userId)
             .Where(h => h.Id == habit.Id)
             .FirstOrDefaultAsync();
         return CreatedAtAction(nameof(GetHabits), new { id = habit.Id }, habitResponse?.ToDto());
@@ -98,7 +118,13 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
     [HttpPut("{id}")]
     public async Task<ActionResult> UpdateHabit(string id, UpdateHabitDto updateHabitDto)
     {
-        Habit? habit = await dbContext.Habits.FirstOrDefaultAsync(h => h.Id == id);
+        string? userId = await userContext.GetUserIdAsync();
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return Unauthorized();
+        }
+
+        Habit? habit = await dbContext.Habits.Where(h => h.UserId == userId).FirstOrDefaultAsync(h => h.Id == id);
 
         if (habit is null)
         {
@@ -115,8 +141,15 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
     [HttpPatch("{id}")]
     public async Task<ActionResult> PatchHabit(string id, JsonPatchDocument<HabitDto> patchDocument)
     {
+        string? userId = await userContext.GetUserIdAsync();
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return Unauthorized();
+        }
+
         Habit? habit = await dbContext.Habits
             .Include(h => h.Tags)
+            .Where(h => h.UserId == userId)
             .FirstOrDefaultAsync(h => h.Id == id);
 
         if (habit is null)
@@ -145,7 +178,13 @@ public sealed class HabitsController(ApplicationDbContext dbContext) : Controlle
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteHabit(string id)
     {
-        Habit? habit = await dbContext.Habits.FirstOrDefaultAsync(h => h.Id == id);
+        string? userId = await userContext.GetUserIdAsync();
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return Unauthorized();
+        }
+
+        Habit? habit = await dbContext.Habits.Where(h => h.UserId == userId).FirstOrDefaultAsync(h => h.Id == id);
 
         if (habit is null)
         {
