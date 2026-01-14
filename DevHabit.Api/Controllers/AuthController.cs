@@ -74,6 +74,19 @@ public sealed class AuthController(
             );
         }
 
+        IdentityResult createRoleResult = await userManager.AddToRoleAsync(identityUser, Roles.Member);
+        if (!createRoleResult.Succeeded)
+        {
+            return Problem(
+                detail: "Failed to create role",
+                statusCode: StatusCodes.Status400BadRequest,
+                extensions: new Dictionary<string, object?>
+                {
+                    { "errors", createRoleResult.Errors.ToDictionary(error => error.Code, error => error.Description) }
+                }
+            );
+        }
+
         Entities.User user = registerUserDto.ToEntity();
         user.IdentityId = identityUser.Id;
 
@@ -81,7 +94,7 @@ public sealed class AuthController(
         await dbContext.SaveChangesAsync();
 
         AccessTokensDto accessToken = tokenProvider.Create(new TokenRequestDto
-            { UserId = identityUser.Id, Email = identityUser.Email });
+            { UserId = identityUser.Id, Email = identityUser.Email, Roles = [Roles.Member] });
 
         RefreshToken refreshToken = new()
         {
@@ -112,8 +125,10 @@ public sealed class AuthController(
             return Unauthorized();
         }
 
+        IList<string> roles = await userManager.GetRolesAsync(identityUser);
+
         AccessTokensDto accessToken = tokenProvider.Create(new TokenRequestDto
-            { UserId = identityUser.Id, Email = identityUser.Email! });
+            { UserId = identityUser.Id, Email = identityUser.Email!, Roles = roles });
 
         RefreshToken refreshToken = new()
         {
@@ -146,10 +161,13 @@ public sealed class AuthController(
             return Unauthorized();
         }
 
+        IList<string> roles = await userManager.GetRolesAsync(refreshToken.User);
+
         TokenRequestDto tokenRequest = new()
         {
             UserId = refreshToken.UserId,
             Email = refreshToken.User.Email!,
+            Roles = roles,
         };
 
         AccessTokensDto accessTokens = tokenProvider.Create(tokenRequest);

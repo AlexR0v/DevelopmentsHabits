@@ -25,7 +25,7 @@ public sealed class TokenProvider(IOptions<JwtAuthOptions> jwtAuthOptions)
         [
             new(JwtRegisteredClaimNames.Sub, tokenRequest.UserId),
             new(JwtRegisteredClaimNames.Email, tokenRequest.Email),
-            //.. tokenRequest.Roles.Select(role => new Claim(JwtCustomClaimNames.Role, role)),
+            .. tokenRequest.Roles.Select(role => new Claim(ClaimTypes.Role, role)),
         ];
 
         SecurityTokenDescriptor tokenDescriptor = new()

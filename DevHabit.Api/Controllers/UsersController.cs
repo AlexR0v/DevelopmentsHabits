@@ -2,6 +2,7 @@ using System.Net.Mime;
 using System.Security.Claims;
 using DevHabit.Api.Database;
 using DevHabit.Api.DTOs.Users;
+using DevHabit.Api.Entities;
 using DevHabit.Api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,5 +61,26 @@ public sealed class UsersController(ApplicationDbContext dbContext, UserContext 
         }
 
         return Ok(user);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> GetUserAllAsync()
+    {
+        string? userId = await userContext.GetUserIdAsync();
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            return Unauthorized();
+        }
+
+        List<UserDto> usersDto = await dbContext.Users
+            .Select(u => u.ToDto())
+            .ToListAsync();
+        if (usersDto.Count == 0)
+        {
+            return NotFound();
+        }
+
+        return Ok(usersDto);
     }
 }
