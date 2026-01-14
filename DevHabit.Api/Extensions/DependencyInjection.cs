@@ -110,6 +110,8 @@ public static class DependencyInjection
                 client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
                 client.DefaultRequestHeaders.Add("User-Agent", "DevHabitApp");
             });
+        builder.Services.Configure<EncryptionOptions>(builder.Configuration.GetSection("Encryption"));
+        builder.Services.AddTransient<EncryptionService>();
 
         return builder;
     }
