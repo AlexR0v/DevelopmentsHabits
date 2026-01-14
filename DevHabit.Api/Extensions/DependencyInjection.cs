@@ -101,6 +101,15 @@ public static class DependencyInjection
         builder.Services.AddTransient<TokenProvider>();
         builder.Services.AddMemoryCache();
         builder.Services.AddScoped<UserContext>();
+        builder.Services.AddScoped<GitHubAccessTokenService>();
+        builder.Services.AddTransient<GitHubService>();
+        builder.Services.AddHttpClient("github")
+            .ConfigureHttpClient(client =>
+            {
+                client.BaseAddress = new Uri("https://api.github.com/");
+                client.DefaultRequestHeaders.Add("Accept", "application/vnd.github+json");
+                client.DefaultRequestHeaders.Add("User-Agent", "DevHabitApp");
+            });
 
         return builder;
     }
